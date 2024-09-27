@@ -1,0 +1,49 @@
+class Server:
+    def __init__(self, name):
+        self.name = name
+
+class LoadBalancer:
+    def __init__(self):
+        self.servers = []
+        self.current_server_index = 0
+
+    def add_server(self, server):
+        self.servers.append(server)
+
+    def get_next_server(self):
+        if not self.servers:
+            return None
+        server = self.servers[self.current_server_index]
+        self.current_server_index = (self.current_server_index + 1) % len(self.servers)
+        return server
+
+# Create load balancer and servers
+load_balancer = LoadBalancer()
+server1 = Server("Server 1")
+server2 = Server("Server 2")
+server3 = Server("Server 3")
+
+# Add servers to load balancer
+load_balancer.add_server(server1)
+load_balancer.add_server(server2)
+load_balancer.add_server(server3)
+
+# Simulate requests
+for i in range(10):
+    server = load_balancer.get_next_server()
+    print(f"Request {i+1} directed to {server.name}")
+
+
+Output:
+
+
+Request 1 directed to Server 1
+Request 2 directed to Server 2
+Request 3 directed to Server 3
+Request 4 directed to Server 1
+Request 5 directed to Server 2
+Request 6 directed to Server 3
+Request 7 directed to Server 1
+Request 8 directed to Server 2
+Request 9 directed to Server 3
+Request 10 directed to Server 1
